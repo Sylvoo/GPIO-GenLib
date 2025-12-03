@@ -1,0 +1,16 @@
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+.vscode/
+.idea/
+*.suo
+*.user
+
+*.o
+*.obj
+*.so
+*.exe
+
