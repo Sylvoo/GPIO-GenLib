@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 #include <cstdint>
 #include <type_traits>
@@ -54,9 +55,8 @@ class GPIO
 template<McuType T>
 class GPIO_port
 {
+    using reg_t = std::remove_cv_t<T>;
     protected:
-        using reg_t = std::remove_cv_t<T>;
-
         volatile reg_t& DDRx;
         volatile reg_t& PORTx;
         volatile reg_t& PINx;
@@ -70,7 +70,7 @@ class GPIO_port
         {
             if constexpr(std::is_same_v<reg_t, uint8_t>)
             {
-                if(bit > 7 || bit < 0) 
+                if(bit > 7) 
                 {
                     throw std::out_of_range("Pin out of range!");
                     return false;
@@ -82,7 +82,7 @@ class GPIO_port
             }
             else if constexpr (std::is_same_v<T, uint32_t>)
             {
-                if(bit > 31 || bit < 0) 
+                if(bit > 31) 
                 {
                     throw std::out_of_range("Pin out of range!");
                     return false;
@@ -91,6 +91,11 @@ class GPIO_port
                 {
                     return true;
                 } 
+            }
+            else 
+            {
+                throw std::exception("Wrong type of registers");
+                return false;
             }
         }
 
@@ -111,7 +116,7 @@ class GPIO_port
         }
         else 
         {
-            throw std:: invalid_argument("Cannot set Direction to a %x Bit", bit);
+            throw std:: invalid_argument("Cannot set Direction");
         }
     }
 
@@ -130,7 +135,7 @@ class GPIO_port
         }
         else 
         {
-            throw std:: invalid_argument("Cannot set %x Bit", bit);
+            throw std:: invalid_argument("Cannot do a setBit() operation ");
         }
     }
 
@@ -138,11 +143,11 @@ class GPIO_port
     {
         if(validateBit(bit))
         {
-            return (PINx & (reg_t)bitMask(bit));
+            return ((PINx & (reg_t)bitMask(bit)) != 0);
         }
         else 
         {
-            throw std:: invalid_argument("Cannot read %x Bit", bit);
+            throw std:: invalid_argument("Cannot do read() operation");
         }
     }
 
@@ -162,7 +167,7 @@ class GPIO_port
         }
         else 
         {
-            throw std:: invalid_argument("Cannot do PullUp operation on %x Bit", bit);
+            throw std:: invalid_argument("Cannot do PullUp operation ");
         }
 
     }
@@ -260,9 +265,48 @@ class GPIO_pin : public GPIO
     }
 };
 
+using ARM  = uint32_t;
+using AVR =  uint8_t;
+
+template<typename T>
+void printBit(T value)
+{
+    int i = (sizeof(T) * 8) - 1; 
+    for (i; i >= 0; i--)
+    {
+        printf("%u", (value>>i) & 1u);
+        if(i%4 == 0)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
+
+constexpr GPIO::Direction OUTPUT = GPIO::Direction::output;
+constexpr GPIO::Direction INPUT  = GPIO::Direction::input;
+
+constexpr GPIO::PinState HIGH = GPIO::PinState::high;
+constexpr GPIO::PinState LOW  = GPIO::PinState::low;
 
 int main()
-{
+{   
+    volatile uint8_t DDRB = 0;
+    volatile uint8_t PORTB = 0;
+    volatile uint8_t PINB = 0;
 
-    std::cout<<"Elo elo\n";
+    static const uint8_t pin3 = 3;
+    GPIO_port<AVR> portB(DDRB, PORTB, PINB);
+    GPIO_pin<AVR> GPIO_pin_3(portB, pin3);
+
+    GPIO_pin_3.init();
+    GPIO_pin_3.setDirection(OUTPUT);
+    GPIO_pin_3.setPinState(HIGH);
+    printf("AFTER OUTPUT, HIGH: ");
+    printBit(DDRB);
+
+    GPIO_pin_3.setPinState(LOW);
+    printf("AFTER State->LOW on PORTB: ");
+    printBit(PORTB);
+
 }
