@@ -9,4 +9,4 @@ Sylwester Ślusarczyk
 ## Start Date 📅
 03.12.2025
 
-This project is part of the Object-Oriented Programming course 🎓.
+This project is part of the Object-Oriented Programming course 🎓. And is not done yet :) 
