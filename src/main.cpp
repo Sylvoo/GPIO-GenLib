@@ -9,8 +9,6 @@ template <typename T>
 concept McuType = std::same_as<std::remove_cv_t<T>, uint8_t> || std::same_as<std::remove_cv_t<T>, uint32_t>;
 // std::remove_cv_t jest po to aby akceptowalo volatile, const uint8_t, uint32_t i czyscilo
 
-
-
 class GPIO
 {
     public:
@@ -80,7 +78,7 @@ class GPIO_port
                     return true;
                 } 
             }
-            else if constexpr (std::is_same_v<T, uint32_t>)
+            else if constexpr (std::is_same_v<reg_t, uint32_t>)
             {
                 if(bit > 31) 
                 {
@@ -94,7 +92,7 @@ class GPIO_port
             }
             else 
             {
-                throw std::exception("Wrong type of registers");
+                throw std::runtime_error("Wrong type of registers");
                 return false;
             }
         }
@@ -188,7 +186,7 @@ class GPIO_pin : public GPIO
                 throw std::invalid_argument("Pin number out of range");
             }
         }
-        catch(std::invalid_argument err)
+        catch(std::invalid_argument& err)
         {
             printf("Error: %s", err.what()); // ktore najlepsze z profesjonalnego punktu widzenia ? 
             // std::cerr << err.what() << '\n'; 
@@ -272,10 +270,10 @@ template<typename T>
 void printBit(T value)
 {
     int i = (sizeof(T) * 8) - 1; 
-    for (i; i >= 0; i--)
+    for (int j = i; j >= 0; j--)
     {
-        printf("%u", (value>>i) & 1u);
-        if(i%4 == 0)
+        printf("%u", (value>>j) & 1u);
+        if(j%4 == 0)
         {
             printf(" ");
         }
