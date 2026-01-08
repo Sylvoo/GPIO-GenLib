@@ -1,6 +1,14 @@
 #pragma once
+#include <exception>
+#include <iostream>
+#include <cstdint>
+#include <type_traits>
+#include <stdexcept>
+#include <concepts>  
+
 #include "mcu_type.hpp"
 #include "gpio.hpp"
+#include "gpio_port.hpp"
 
 template <McuType T>
 class GPIO_pin : public GPIO

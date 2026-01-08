@@ -1,4 +1,10 @@
 #pragma once
+#include <exception>
+#include <iostream>
+#include <cstdint>
+#include <type_traits>
+#include <stdexcept>
+#include <concepts>  
 #include "mcu_type.hpp"
 
 template<McuType T>
@@ -117,10 +123,5 @@ class GPIO_port
                 PORTx &= (reg_t)~(bitMask(bit));
             }
         }
-        else 
-        {
-            throw std:: invalid_argument("Cannot do PullUp operation ");
-        }
-
     }
 };
