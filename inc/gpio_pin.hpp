@@ -17,8 +17,6 @@ class GPIO_pin : public GPIO
         }
     };
 
-    
-
     void setDirection(Direction direction) override
     {
        port.setDirection(bit, direction == Direction::output); // true jesli output false jesli input

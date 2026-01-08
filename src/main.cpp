@@ -25,12 +25,6 @@ void printBit(T value)
     printf("\n");
 }
 
-constexpr GPIO::Direction OUTPUT = GPIO::Direction::output;
-constexpr GPIO::Direction INPUT  = GPIO::Direction::input;
-
-constexpr GPIO::PinState HIGH = GPIO::PinState::high;
-constexpr GPIO::PinState LOW  = GPIO::PinState::low;
-
 int main()
 {   
     volatile uint8_t DDRB = 0;
