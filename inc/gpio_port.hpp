@@ -66,10 +66,14 @@ class GPIO_port
             if(is_output)
             {
                 DDRx |= (reg_t)bitMask(bit);
+                PORTx &= (reg_t)~bitMask(bit);
+                PINx &= (reg_t)~bitMask(bit);
             }
             else
             {
                 DDRx &= (reg_t)(~bitMask(bit));
+                PORTx |= (reg_t)bitMask(bit);
+                PINx |= (reg_t)bitMask(bit);
             }
         }
         else 
@@ -85,10 +89,12 @@ class GPIO_port
             if(to_high)
             {
                 PORTx |= (reg_t)bitMask(bit);
+                PINx |= (reg_t)bitMask(bit);
             }
             else
             {
                 PORTx &= (reg_t)~(bitMask(bit));
+                PINx &= (reg_t)~(bitMask(bit));
             }
         }
         else 
@@ -115,12 +121,14 @@ class GPIO_port
         {
             if(is_pullUp)
             {
-                DDRx &= (reg_t)~(bitMask(bit));
+                setDirection(bit, false);
                 PORTx |= (reg_t)bitMask(bit);
+                PINx |= (reg_t)bitMask(bit);
             }   
             else
             {
                 PORTx &= (reg_t)~(bitMask(bit));
+                PINx &= (reg_t)~(bitMask(bit));
             }
         }
     }

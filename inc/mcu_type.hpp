@@ -16,7 +16,9 @@ constexpr GPIO::Direction INPUT  = GPIO::Direction::input;
 constexpr GPIO::PinState HIGH = GPIO::PinState::high;
 constexpr GPIO::PinState LOW  = GPIO::PinState::low;
 
-constexpr GPIO::PinMode INPUT_PULLUP = GPIO::PinMode::inputPullUp;
+constexpr GPIO::PinMode INPUT_PULLUP_MODE = GPIO::PinMode::inputPullUp;
+constexpr GPIO::PinMode INPUT_MODE = GPIO::PinMode::input;
+constexpr GPIO::PinMode OUTPUT_MODE = GPIO::PinMode::output;
 
 constexpr GPIO::PullMode PULL_UP  = GPIO::PullMode::pull;
 constexpr GPIO::PullMode NO_PULL  = GPIO::PullMode::noPull;

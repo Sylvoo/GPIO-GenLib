@@ -103,7 +103,24 @@ TEST_CASE("GPIO_port<AVR>: PullUpBit test")
     CHECK_THROWS_AS(portB.pullUpBit(bitToPullUp_2, true), std::out_of_range);
 }
 
-TEST_CASE("GPIO_pin<AVR>: setPinState")
+TEST_CASE("GPIO_port<AVR>: pullUpBit")
+{
+    volatile AVR ddr=0, port=0, pin=0;
+    GPIO_port<AVR> portB(ddr, port, pin);
+    AVR pinNumber = 3;
+    GPIO_pin<AVR> pin_3(portB, pinNumber);
+
+    portB.pullUpBit(pinNumber, true);
+    CHECK((ddr & (1<<pinNumber)) == 0);
+    CHECK((port & (1<<pinNumber)) != 0);
+    CHECK((pin & (1<<pinNumber)) != 0);
+
+    portB.pullUpBit(pinNumber, false);
+    CHECK((port & (1<<pinNumber)) == 0);
+    CHECK((pin & (1<<pinNumber)) == 0);
+}
+
+TEST_CASE("GPIO_pin<AVR>: setDirection")
 {
     volatile AVR ddr=0, port=0, pin=0;
     GPIO_port<AVR> portB(ddr, port, pin);
@@ -114,4 +131,70 @@ TEST_CASE("GPIO_pin<AVR>: setPinState")
     CHECK((ddr & (1<<pinNumber)) != 0);
 
 }
+
+TEST_CASE("GPIO_pin<AVR>: setPinState")
+{
+    volatile AVR ddr=0, port=0, pin=0;
+    GPIO_port<AVR> portB(ddr, port, pin);
+    AVR pinNumber = 3;
+    GPIO_pin<AVR> pin_3(portB, pinNumber);
+
+    pin_3.setPinState(HIGH);
+    CHECK((port & (1<<pinNumber)) != 0);
+
+    pin_3.setPinState(LOW);
+    CHECK((port & (1<<pinNumber)) == 0);
+}
+
+TEST_CASE("GPIO_pin<AVR>: setPinMode")
+{
+    volatile AVR ddr=0, port=0, pin=0;
+    GPIO_port<AVR> portB(ddr, port, pin);
+    AVR pinNumber = 3;
+    GPIO_pin<AVR> pin_3(portB, pinNumber);
+
+    pin_3.setPinMode(INPUT_MODE);
+    CHECK((ddr & (1<<pinNumber)) == 0);
+
+    pin_3.setPinMode(OUTPUT_MODE);
+    CHECK((ddr & (1<<pinNumber)) != 0);
+
+    pin_3.setPinMode(INPUT_PULLUP_MODE);
+    CHECK((ddr & (1<<pinNumber)) == 0);
+    CHECK((port & (1<<pinNumber)) != 0);
+}
+
+TEST_CASE("GPIO_pin<AVR>: setPullMode")
+{
+    volatile AVR ddr=0, port=0, pin=0;
+    GPIO_port<AVR> portB(ddr, port, pin);
+    AVR pinNumber = 3;
+    GPIO_pin<AVR> pin_3(portB, pinNumber);
+
+    pin_3.setPullMode(PULL_UP);
+    CHECK((ddr & (1<<pinNumber)) == 0);
+    CHECK((port & (1<<pinNumber)) != 0);
+
+    pin_3.setPullMode(NO_PULL);
+    CHECK((port & (1<<pinNumber)) == 0);
+}
+
+TEST_CASE("GPIO_pin<AVR>: read")
+{
+    volatile AVR ddr=0, port=0, pin=0;
+    GPIO_port<AVR> portB(ddr, port, pin);
+    AVR pinNumber = 3;
+    GPIO_pin<AVR> pin_3(portB, pinNumber);
+
+    bool state = pin_3.read();
+    CHECK(state == false);
+
+    pin_3.setPinState(HIGH);
+    state = pin_3.read();
+    CHECK(state == true);
+}
+
+
+
+
 

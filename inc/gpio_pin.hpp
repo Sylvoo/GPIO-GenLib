@@ -25,12 +25,12 @@ class GPIO_pin : public GPIO
         }
     };
 
-    void setDirection(Direction direction) override
+    void setDirection(const Direction direction) override
     {
        port.setDirection(bit, direction == Direction::output); // true jesli output false jesli input
     }
 
-    void setPinState(PinState state) override
+    void setPinState(const PinState state) override
     {
         switch(state)
         {
@@ -46,7 +46,7 @@ class GPIO_pin : public GPIO
         }
     }
 
-    void setPinMode(PinMode state) override
+    void setPinMode(const PinMode state) override
     {
         switch(state)
         {
@@ -65,7 +65,7 @@ class GPIO_pin : public GPIO
         }
     }
 
-    void setPullMode(PullMode state) override
+    void setPullMode(const PullMode state) override
     {
         switch(state)
         {
