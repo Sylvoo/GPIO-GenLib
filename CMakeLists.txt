@@ -9,10 +9,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(doctest REQUIRED)
+
 
 add_executable(${PROJECT_NAME}
-    src/test_main.cpp
+    src/main.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -24,3 +24,24 @@ target_compile_options(${PROJECT_NAME}
     PRIVATE
         -Wall
 )
+
+find_package(doctest REQUIRED)
+
+add_executable(${PROJECT_NAME}_tests
+    tests/test_main.cpp
+)
+target_include_directories(${PROJECT_NAME}_tests
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/inc
+)
+
+target_compile_options(${PROJECT_NAME}_tests
+    PRIVATE
+        -Wall
+)
+
+target_link_libraries(${PROJECT_NAME}_tests PRIVATE doctest::doctest)
+
+
+
+
