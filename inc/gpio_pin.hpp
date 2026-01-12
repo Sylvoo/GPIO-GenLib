@@ -16,12 +16,8 @@
  */
 #pragma once
 
-#include <exception>
-#include <iostream>
-#include <cstdint>
 #include <type_traits>
 #include <stdexcept>
-#include <concepts>  
 
 #include "mcu_type.hpp"
 #include "gpio.hpp"
@@ -29,14 +25,27 @@
 
 
 namespace ss{
-
+    /**
+     * @brief GPIO implementation representing a single pin of a GPIO_port.
+     *
+     * @tparam T MCU register type constrained by @ref ss::McuType.
+     */
     template <McuType T>
     class GPIO_pin : public GPIO
     {
-        using reg_t = std::remove_cv_t<T>;
-        GPIO_port<reg_t>& port;
-        const reg_t bit;
+        using reg_t = std::remove_cv_t<T>;     /**< Register type without cv-qualifiers. */
+        GPIO_port<reg_t>& port;                /**< Underlying GPIO port. */
+        const reg_t bit;                       /**< Bit index within the port. */
 
+
+        /**
+         * @brief Construct a GPIO pin bound to a port and bit index.
+         *
+         * @param portx GPIO_port reference.
+         * @param pbit  Bit index within the port.
+         *
+         * @throws std::invalid_argument If the bit index is invalid.
+         */
         public:
         GPIO_pin(GPIO_port<reg_t>& portx, reg_t pbit) : port(portx), bit(pbit)
         {
@@ -45,11 +54,13 @@ namespace ss{
             }
         };
 
+        /** @brief Set pin direction. */
         void setDirection(const Direction direction) override
         {
         port.setDirection(bit, direction == Direction::output); // true jesli output false jesli input
         }
 
+        /** @brief Set pin state. */
         void setPinState(const PinState state) override
         {
             switch(state)
@@ -66,6 +77,7 @@ namespace ss{
             }
         }
 
+        /** @brief Configure pin mode. */
         void setPinMode(const PinMode state) override
         {
             switch(state)
@@ -85,6 +97,7 @@ namespace ss{
             }
         }
 
+        /** @brief Configure pull resistor mode. */
         void setPullMode(const PullMode state) override
         {
             switch(state)
@@ -101,16 +114,22 @@ namespace ss{
             }
         }
         
+        /** @brief Read current pin logic level. */
         bool read() const override
         {
             return port.readBit(bit);
         }
 
+        /**
+         * @brief Initialize pin to default safe state.
+         *
+         * @details Configures pin as input with pull disabled.
+         */
         void init() override
         {
-            setDirection(Direction::input); // domyslnie 0
-            setPullMode(PullMode::noPull); // domyslnie pullUp wylaczony 
+            setDirection(Direction::input);
+            setPullMode(PullMode::noPull); 
         }
     };
 
-}
+} // namespace ss

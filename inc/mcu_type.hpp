@@ -1,4 +1,15 @@
-#pragma once 
+/**
+ * @file mcu_type.hpp
+ * @brief MCU type constraints and GPIO definitions.
+ *
+ * @details
+ * Defines the @ref ss::McuType concept for supported MCU register-width types.
+ */
+#pragma once
+#include <cstdint>
+#include <type_traits>
+#include <concepts>
+
 #include "gpio.hpp"
 
 namespace ss {
