@@ -109,7 +109,7 @@ namespace ss{
                     port.pullUpBit(bit, true);
                     break;
                 default:
-                    throw std::invalid_argument("wanted invalid pull mode of a pin"); // usseles raczej ale dla picu jest (na razie)
+                    throw std::invalid_argument("wanted invalid pull mode of a pin"); 
                     break;
             }
         }
