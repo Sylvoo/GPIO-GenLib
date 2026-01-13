@@ -84,7 +84,6 @@ namespace ss{
                 }
             }
 
-        
         /**
          * @brief Set pin direction.
          * @param bit Bit index.
