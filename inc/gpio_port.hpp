@@ -198,7 +198,7 @@ namespace ss{
      * @param port GPIO port instance whose registers are printed.
      *
      * @details
-     * Intended for debugging and diagnostics.
+     * Intended for debugging and diagnostics only.
      * Prints DDRx, PORTx and PINx as fixed-width binary values using @c std::bitset.
      */
     template <typename T>
