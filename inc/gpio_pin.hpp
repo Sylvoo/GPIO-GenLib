@@ -57,7 +57,7 @@ namespace ss{
         /** @brief Set pin direction. */
         void setDirection(const Direction direction) override
         {
-        port.setDirection(bit, direction == Direction::output); // true jesli output false jesli input
+        port.setDirection(bit, direction == Direction::output); 
         }
 
         /** @brief Set pin state. */
@@ -72,7 +72,7 @@ namespace ss{
                     port.setBit(bit, false);
                     break;
                 default:
-                    throw std::invalid_argument("wanted invalid state of a pin"); // usseles raczej ale dla picu jest (na razie)
+                    throw std::invalid_argument("wanted invalid state of a pin"); 
                     break;
             }
         }
@@ -92,7 +92,7 @@ namespace ss{
                     port.pullUpBit(bit, true);
                     break;
                 default:
-                    throw std::invalid_argument("wanted invalid mode of a pin"); // usseles raczej ale dla picu jest (na razie)
+                    throw std::invalid_argument("wanted invalid mode of a pin"); 
                     break;
             }
         }
