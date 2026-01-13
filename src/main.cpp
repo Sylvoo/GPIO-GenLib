@@ -6,7 +6,7 @@
 
 void demonstrateAVR()
 {
-    std::cout << " ------- AVR PORTS SIMULATION -------";
+    std::cout << " ------- AVR SIMULATION -------";
     volatile ss::AVR DDRB  = 0;
     volatile ss::AVR PORTB = 0;
     volatile ss::AVR PINB  = 0;
