@@ -37,8 +37,8 @@ namespace ss{
              * @brief Construct a port registers.
              *
              * @param ddr  Direction register reference.
-             * @param port Output register reference.
-             * @param pin  Input register reference.
+             * @param port Port register reference.
+             * @param pin  Pin register reference.
              */
             GPIO_port(volatile reg_t& ddr, volatile reg_t& port, volatile reg_t& pin) : DDRx(ddr), PORTx(port), PINx(pin) 
             {
