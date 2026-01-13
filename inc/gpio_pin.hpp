@@ -57,7 +57,7 @@ namespace ss{
         /** @brief Set pin direction. */
         void setDirection(const Direction direction) override
         {
-        port.setDirection(bit, direction == Direction::output); 
+            port.setDirection(bit, direction == Direction::output); 
         }
 
         /** @brief Set pin state. */
@@ -73,7 +73,6 @@ namespace ss{
                     break;
                 default:
                     throw std::invalid_argument("wanted invalid state of a pin"); 
-                    break;
             }
         }
 
@@ -93,7 +92,6 @@ namespace ss{
                     break;
                 default:
                     throw std::invalid_argument("wanted invalid mode of a pin"); 
-                    break;
             }
         }
 
@@ -110,7 +108,6 @@ namespace ss{
                     break;
                 default:
                     throw std::invalid_argument("wanted invalid pull mode of a pin"); 
-                    break;
             }
         }
         
