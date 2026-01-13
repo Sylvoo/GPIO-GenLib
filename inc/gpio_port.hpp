@@ -40,7 +40,10 @@ namespace ss{
              * @param port Output register reference.
              * @param pin  Input register reference.
              */
-            GPIO_port(volatile reg_t& ddr, volatile reg_t& port, volatile reg_t& pin) : DDRx(ddr), PORTx(port), PINx(pin) {};
+            GPIO_port(volatile reg_t& ddr, volatile reg_t& port, volatile reg_t& pin) : DDRx(ddr), PORTx(port), PINx(pin) 
+            {
+                static_assert(sizeof(reg_t) == 1 || sizeof(reg_t) == 4, "Unsupported register type: must be 8-bit or 32-bit");
+            };
 
 
             /**
